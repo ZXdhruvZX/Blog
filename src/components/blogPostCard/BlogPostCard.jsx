@@ -60,7 +60,7 @@ function BlogPostCard() {
                               ? 'rgb(226, 232, 240)'
                               : ' rgb(30, 41, 59)'
                           }}>
-                            {item.blogs.title}
+                            {item.title}
                           </h1>
 
                           {/* Blog Description  */}

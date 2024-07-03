@@ -1,16 +1,24 @@
-import React, { useContext, useEffect, useState } from "react";
-import { MyContext } from "../../context/data/MyContext"; // Adjust the import path as needed
+import { useContext, useEffect, useState } from "react";
+import { MyContext } from "../../context/data/MyContext";
 import { useParams } from "react-router";
 import { doc, getDoc } from "firebase/firestore";
 import { fireDB } from "../../firebase/FirebaseConfig";
 import Layout from "../../components/layout/Layout";
-import Loader from "../../components/loader/Loader";
 import Comment from "../../components/comment/Comment";
+
+import {
+  Timestamp,
+  addDoc,
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import toast from "react-hot-toast";
 
 function BlogInfo() {
   const context = useContext(MyContext);
-  const { mode, setLoading, loading } = context;
+  const { mode } = context;
 
   const params = useParams();
 
@@ -18,18 +26,18 @@ function BlogInfo() {
   const [getBlogs, setGetBlogs] = useState();
 
   const getAllBlogs = async () => {
-    setLoading(true);
+    // setLoading(true);
     try {
-      const productTemp = await getDoc(doc(fireDb, "blogPost", params.id));
+      const productTemp = await getDoc(doc(fireDB, "blogPost", params.id));
       if (productTemp.exists()) {
         setGetBlogs(productTemp.data());
       } else {
         console.log("Document does not exist");
       }
-      setLoading(false);
+      // setLoading(false);
     } catch (error) {
       console.log(error);
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -42,17 +50,16 @@ function BlogInfo() {
   function createMarkup(c) {
     return { __html: c };
   }
-
   const [fullName, setFullName] = useState("");
   const [commentText, setCommentText] = useState("");
 
   const addComment = async () => {
-    const userRef = collection(
+    const commentRef = collection(
       fireDB,
       "blogPost/" + `${params.id}/` + "comment"
     );
     try {
-      await addDoc(userRef, {
+      await addDoc(commentRef, {
         fullName,
         commentText,
         time: Timestamp.now(),
@@ -69,7 +76,6 @@ function BlogInfo() {
       console.log(error);
     }
   };
-
   const [allComment, setAllComment] = useState([]);
 
   const getcomment = async () => {
@@ -100,38 +106,35 @@ function BlogInfo() {
     <Layout>
       <section className="rounded-lg h-full overflow-hidden max-w-4xl mx-auto px-4 ">
         <div className=" py-4 lg:py-8">
-          {loading ? (
-            <Loader />
-          ) : (
-            <div>
-              {/* Thumbnail  */}
-              <img
-                alt="content"
-                className="mb-3 rounded-lg h-full w-full"
-                src={getBlogs?.thumbnail}
-              />
-              {/* title And date  */}
-              <div className="flex justify-between items-center mb-3">
-                <h1
-                  style={{ color: mode === "dark" ? "white" : "black" }}
-                  className=" text-xl md:text-2xl lg:text-2xl font-semibold"
-                >
-                  {getBlogs?.blogs?.title}
-                </h1>
-                <p style={{ color: mode === "dark" ? "white" : "black" }}>
-                  {getBlogs?.date}
-                </p>
-              </div>
-              <div
-                className={`border-b mb-5 ${
-                  mode === "dark" ? "border-gray-600" : "border-gray-400"
-                }`}
-              />
+          <div>
+            {/* Thumbnail  */}
+            <img
+              alt="content"
+              className="mb-3 rounded-lg h-full w-full"
+              src={getBlogs?.thumbnail}
+            />
+            {/* title And date  */}
+            <div className="flex justify-between items-center mb-3">
+              <h1
+                style={{ color: mode === "dark" ? "white" : "black" }}
+                className=" text-xl md:text-2xl lg:text-2xl font-semibold"
+              >
+                {getBlogs?.title}
+              </h1>
+              <p style={{ color: mode === "dark" ? "white" : "black" }}>
+                {getBlogs?.date}
+              </p>
+            </div>
+            <div
+              className={`border-b mb-5 ${
+                mode === "dark" ? "border-gray-600" : "border-gray-400"
+              }`}
+            />
 
-              {/* blog Content  */}
-              <div className="content">
-                <div
-                  className={`[&>h1]:text-[32px] [&>h1]:font-bold  [&>h1]:mb-2.5
+            {/* blog Content  */}
+            <div className="content">
+              <div
+                className={`[&>h1]:text-[32px] [&>h1]:font-bold  [&>h1]:mb-2.5
                         ${
                           mode === "dark"
                             ? "[&>h1]:text-[#ff4d4d]"
@@ -203,18 +206,14 @@ function BlogInfo() {
 
                         [&>img]:rounded-lg
                         `}
-                  dangerouslySetInnerHTML={createMarkup(
-                    getBlogs?.blogs?.content
-                  )}
-                ></div>
-              </div>
+                dangerouslySetInnerHTML={createMarkup(getBlogs?.content)}
+              ></div>
             </div>
-          )}
-
+          </div>
           <Comment
             addComment={addComment}
             commentText={commentText}
-            setcommentText={setCommentText}
+            setCommentText={setCommentText}
             allComment={allComment}
             fullName={fullName}
             setFullName={setFullName}

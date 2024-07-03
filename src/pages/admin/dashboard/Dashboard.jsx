@@ -1,11 +1,12 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import Layout from "../../../components/layout/Layout";
 import { Button } from "@material-tailwind/react";
 import { Link, useNavigate } from "react-router-dom";
 import { MyContext } from "../../../context/data/MyContext";
 
 function Dashboard() {
-  const { mode, getAllBlog } = useContext(MyContext); // Destructure mode directly
+  const { mode, getAllBlog } = useContext(MyContext);
+  
 
   const navigate = useNavigate();
 
@@ -174,7 +175,7 @@ function Dashboard() {
                       const { thumbnail, date } = item;
                       console.log(item);
                       return (
-                        <tbody>
+                        <tbody key={index}>
                           <tr
                             className=" border-b-2"
                             style={{
@@ -213,7 +214,7 @@ function Dashboard() {
                               }}
                               className="px-6 py-4"
                             >
-                              {item.blogs.title}
+                              {item.title}
                             </td>
                             {/* Blog Category  */}
                             <td
@@ -222,7 +223,7 @@ function Dashboard() {
                               }}
                               className="px-6 py-4"
                             >
-                              {item.blogs.category}
+                              {item.category}
                             </td>
                             {/* Blog Date  */}
                             <td
