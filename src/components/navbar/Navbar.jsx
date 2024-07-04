@@ -74,7 +74,7 @@ export default function Nav() {
                 className=" w-10 h-10 "
                 src="https://cdn-icons-png.flaticon.com/128/3685/3685253.png"
               />
-              <span>Devknus</span>
+              <span>Dhruv Sharma</span>
             </Typography>
           </Link>
 

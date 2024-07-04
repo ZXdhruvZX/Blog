@@ -24,7 +24,7 @@ function HeroSection() {
               </div>
 
               {/* Text  */}
-              <h1 className=" text-3xl text-white font-bold">Devknus</h1>
+              <h1 className=" text-3xl text-white font-bold">DHRUV</h1>
             </div>
 
             {/* Paragraph  */}
@@ -32,7 +32,7 @@ function HeroSection() {
               style={{ color: mode === "dark" ? "white" : "white" }}
               className="sm:text-3xl text-xl font-extralight sm:mx-auto "
             >
-              Here are some blogs and tutorials contributed by Devknus.
+              Here are some blogs and tutorials contributed by Dhruv Sharma.
             </p>
           </div>
         </main>
