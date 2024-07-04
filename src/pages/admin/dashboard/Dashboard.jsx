@@ -33,7 +33,7 @@ function Dashboard() {
               className="text-center font-bold text-2xl mb-2"
               style={{ color: mode === "dark" ? "white" : "black" }}
             >
-              Kamal Nayan Upadhyay
+              Dhruv Sharma
             </h1>
 
             <h2
@@ -46,13 +46,13 @@ function Dashboard() {
               style={{ color: mode === "dark" ? "white" : "black" }}
               className="font-semibold"
             >
-              knupadhyay784@gmail.com
+              dhruvsharma7016@gmail.com
             </h2>
             <h2
               style={{ color: mode === "dark" ? "white" : "black" }}
               className="font-semibold"
             >
-              <span>Total Blog : </span> 15
+              <span>Total Blog : </span> 4 and counting
             </h2>
             <div className="flex gap-2 mt-2">
               <Link to={"/createblog"}>
